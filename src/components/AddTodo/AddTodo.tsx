@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import authStore from "../../store/authStore";
 import { useMutation } from "@tanstack/react-query";
 import { addTodoByUser } from "../../api/todo.api";
+
 const AddTodo = () => {
   const [name, setName] = useState<string>("");
   const { userId } = authStore();
@@ -14,11 +15,11 @@ const AddTodo = () => {
       addTodoByUser({ name, completed: false, userId: userId! }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
+      setName("");
     },
   });
   const handleAddTodo = () => {
     mutationAddTodo.mutate();
-    setName("");
   };
   return (
     <Flex>

@@ -4,20 +4,14 @@ import { useMutation } from "@tanstack/react-query";
 import { signup } from "../api/auth.api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
-interface Data {
-  username: string;
-  gmail: string;
-  password: string;
-  confirmPassword: string;
-}
+import { DataSignupForm } from "../types/auth.types";
 
 export const Signup = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: (payload: Data) => signup(payload),
+  const mutationSignup = useMutation({
+    mutationFn: (payload: DataSignupForm) => signup(payload),
     onSuccess: (res) => {
       if (!res) return;
       if (res.status === 409) {
@@ -36,8 +30,8 @@ export const Signup = () => {
     },
   });
 
-  const onFinish = async (values: Data) => {
-    mutate(values);
+  const onFinish = async (values: DataSignupForm) => {
+    mutationSignup.mutate(values);
   };
 
   return (
@@ -90,7 +84,12 @@ export const Signup = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button htmlType="submit" block loading={isPending} type="primary">
+          <Button
+            htmlType="submit"
+            block
+            loading={mutationSignup.isPending}
+            type="primary"
+          >
             Signup
           </Button>
         </Form.Item>

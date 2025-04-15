@@ -5,11 +5,7 @@ import { login } from "../api/auth.api";
 import authStore from "../store/authStore";
 import { toast } from "react-toastify";
 import { User } from "../types/auth.types";
-
-interface Data {
-  gmail: string;
-  password: string;
-}
+import { DataLoginForm } from "../types/auth.types";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -17,7 +13,7 @@ const Login = () => {
   const { login: loginStore } = authStore();
 
   const { mutate, reset } = useMutation({
-    mutationFn: (payload: Data) => login(payload),
+    mutationFn: (payload: DataLoginForm) => login(payload),
 
     onSuccess: (res) => {
       if (!res) {
@@ -54,7 +50,7 @@ const Login = () => {
     },
   });
 
-  const onFinish = (values: Data) => {
+  const onFinish = (values: DataLoginForm) => {
     reset();
     mutate(values);
   };

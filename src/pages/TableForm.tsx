@@ -1,4 +1,4 @@
-import { Table, Pagination } from "antd";
+import { Table, Pagination, Space } from "antd";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import fetchUsers from "../api/table.api";
 import { useQueryString } from "../utils/ultils";
@@ -31,20 +31,22 @@ export const TableForm = () => {
 
   return (
     <div className="max-w-4xl mx-auto mt-10 p-5 bg-white">
-      <Table
-        dataSource={data?.data || []}
-        columns={columns}
-        rowKey="id"
-        loading={isLoading}
-        pagination={false}
-      />
-      <Pagination
-        current={currentPage}
-        pageSize={LIMIT_PAGE}
-        total={data?.total}
-        onChange={handleChangePage}
-        align="center"
-      />
+      <Space direction="vertical" size="middle" className="w-full">
+        <Table
+          dataSource={data?.data || []}
+          columns={columns}
+          rowKey="id"
+          loading={isLoading}
+          pagination={false}
+        />
+        <Pagination
+          current={currentPage}
+          pageSize={LIMIT_PAGE}
+          total={data?.total}
+          onChange={handleChangePage}
+          align="center"
+        />
+      </Space>
     </div>
   );
 };

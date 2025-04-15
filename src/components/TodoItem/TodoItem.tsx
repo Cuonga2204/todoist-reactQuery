@@ -25,7 +25,7 @@ const TodoItem: React.FC<Todo> = ({ name, id, completed }) => {
         id,
         name,
         completed: !completed,
-        userId: userId || "", // 👈 Không để rỗng
+        userId: userId || "",
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos", userId] });

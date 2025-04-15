@@ -1,7 +1,6 @@
 import axios from "axios";
 import { Todo } from "../types/todo.types";
-
-const API_URL = import.meta.env.VITE_API_URL;
+import { API_URL } from "../constants/config";
 
 export const getTodosByUserId = async (userId: string) => {
   const res = await axios.get(`${API_URL}/todos?userId=${userId}`);
