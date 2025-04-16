@@ -39,7 +39,6 @@ export const TodoLayout = () => {
           defaultSelectedKeys={["home"]}
           items={menuItems}
           onClick={handleMenuClick}
-          style={{ marginLeft: "auto" }}
         />
       </Header>
       <Outlet />

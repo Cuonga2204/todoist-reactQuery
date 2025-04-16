@@ -19,10 +19,9 @@ export const AuthLayout = () => {
           mode="horizontal"
           defaultSelectedKeys={["homePage"]}
           items={menuItems}
-          style={{ marginLeft: "auto" }}
         />
       </Header>
-      <Content style={{ padding: "24px", minHeight: "100vh" }}>
+      <Content>
         <Outlet />
       </Content>
     </Layout>
