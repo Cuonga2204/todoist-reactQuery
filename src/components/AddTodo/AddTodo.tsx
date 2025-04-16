@@ -28,7 +28,11 @@ const AddTodo = () => {
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <Button type="primary" onClick={handleAddTodo}>
+      <Button
+        type="primary"
+        onClick={handleAddTodo}
+        disabled={name.trim() ? false : true}
+      >
         Add
       </Button>
     </Flex>

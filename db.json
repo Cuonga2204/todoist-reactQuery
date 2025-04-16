@@ -210,18 +210,12 @@
     {
       "id": "ab75",
       "name": "Cuong",
-      "completed": false,
+      "completed": true,
       "userId": "8169"
     },
     {
       "id": "051c",
       "name": "123",
-      "completed": false,
-      "userId": "8169"
-    },
-    {
-      "id": "7586",
-      "name": "",
       "completed": false,
       "userId": "8169"
     },
@@ -266,6 +260,12 @@
       "name": "123 1231",
       "completed": false,
       "userId": "0ff5"
+    },
+    {
+      "id": "2ab3",
+      "name": "123",
+      "completed": false,
+      "userId": "8169"
     }
   ],
   "usersInfor": [

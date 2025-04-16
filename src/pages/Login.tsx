@@ -6,6 +6,7 @@ import authStore from "../store/authStore";
 import { toast } from "react-toastify";
 import { DataLoginForm } from "../types/auth.types";
 import { useLocation } from "react-router-dom";
+
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();

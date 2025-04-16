@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { DataSignupForm } from "../types/auth.types";
 import authStore from "../store/authStore";
+
 export const Signup = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
