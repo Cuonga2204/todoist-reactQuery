@@ -4,13 +4,12 @@ import { useMutation } from "@tanstack/react-query";
 import { login } from "../api/auth.api";
 import authStore from "../store/authStore";
 import { toast } from "react-toastify";
-import { User } from "../types/auth.types";
 import { DataLoginForm } from "../types/auth.types";
 
 const Login = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const { login: loginStore } = authStore();
+  const { loginStore } = authStore();
 
   const { mutate, reset } = useMutation({
     mutationFn: (payload: DataLoginForm) => login(payload),
@@ -34,8 +33,9 @@ const Login = () => {
         }
 
         case 200: {
-          const user = res.data as User;
-          loginStore(user.username, user.id.toString());
+          console.log(`res`, res);
+          const user = res.data;
+          loginStore(user.username, user.id);
           navigate("/");
           break;
         }

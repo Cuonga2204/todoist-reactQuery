@@ -5,11 +5,11 @@ import { signup } from "../api/auth.api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { DataSignupForm } from "../types/auth.types";
-
+import authStore from "../store/authStore";
 export const Signup = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-
+  const { loginStore } = authStore();
   const mutationSignup = useMutation({
     mutationFn: (payload: DataSignupForm) => signup(payload),
     onSuccess: (res) => {
@@ -22,7 +22,9 @@ export const Signup = () => {
           },
         ]);
       } else {
-        navigate("/login");
+        const user = res.data;
+        loginStore(user.username, user.id);
+        navigate("/");
       }
     },
     onError: () => {
