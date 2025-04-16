@@ -5,6 +5,7 @@ import { Signup } from "./pages/Signup";
 import { AuthLayout } from "./layouts/AuthLayout";
 import { TodoLayout } from "./layouts/TodoLayout";
 import { TableForm } from "./pages/TableForm";
+import { PrivateRoute } from "./routers/PrivateRoute";
 
 function App() {
   return (
@@ -14,9 +15,11 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </Route>
-        <Route element={<TodoLayout />}>
-          <Route path="/" element={<Todo />} />
-          <Route path="/table" element={<TableForm />} />
+        <Route element={<PrivateRoute />}>
+          <Route element={<TodoLayout />}>
+            <Route path="/" element={<Todo />} />
+            <Route path="/table" element={<TableForm />} />
+          </Route>
         </Route>
       </Routes>
     </Router>

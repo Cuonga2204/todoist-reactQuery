@@ -5,12 +5,13 @@ import { login } from "../api/auth.api";
 import authStore from "../store/authStore";
 import { toast } from "react-toastify";
 import { DataLoginForm } from "../types/auth.types";
-
+import { useLocation } from "react-router-dom";
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(`location`, location);
   const [form] = Form.useForm();
   const { loginStore } = authStore();
-
   const { mutate, reset } = useMutation({
     mutationFn: (payload: DataLoginForm) => login(payload),
 
@@ -36,7 +37,9 @@ const Login = () => {
           console.log(`res`, res);
           const user = res.data;
           loginStore(user.username, user.id);
-          navigate("/");
+          console.log(location.state);
+          const redirectPath = location.state?.from || "/";
+          navigate(redirectPath);
           break;
         }
         default: {
