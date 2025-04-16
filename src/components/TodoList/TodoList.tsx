@@ -1,7 +1,7 @@
 import TodoItem from "../TodoItem/TodoItem";
 import { useTodoStore } from "../../store/todoStore";
 import { FILTER_STATUSES } from "../../constants/filterConstant";
-import authStore from "../../store/authStore"; // cần import lại
+import authStore from "../../store/authStore";
 import { getTodosByUserId } from "../../api/todo.api";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { Todo } from "../../types/todo.types";
