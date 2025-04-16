@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { Input, Button } from "antd";
-import { Todo } from "../../types/todo.types";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateTodo as updateTodoApi } from "../../api/todo.api";
 import authStore from "../../store/authStore";
+import { useEditTodo } from "../../hooks/useEditTodo";
 
 interface EditTodoFormProps {
   id: string;
@@ -19,21 +17,13 @@ export const EditTodoForm: React.FC<EditTodoFormProps> = ({
   setIsEditing,
 }) => {
   const [editName, setEditName] = useState<string>(name);
-  const queryClient = useQueryClient();
   const { userId } = authStore();
 
-  const { mutate: updateTodo, isPending } = useMutation({
-    mutationFn: (updatedData: Omit<Todo, "id">) =>
-      updateTodoApi({ id, ...updatedData }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todos", userId] });
-      setIsEditing(false);
-    },
-  });
+  const editMutation = useEditTodo({ id, setIsEditing });
 
   const handleSave = () => {
     if (!editName.trim() || !userId) return;
-    updateTodo({ name: editName.trim(), completed, userId });
+    editMutation.mutate({ name: editName.trim(), completed, userId });
   };
 
   return (
@@ -46,7 +36,7 @@ export const EditTodoForm: React.FC<EditTodoFormProps> = ({
       <Button
         onClick={handleSave}
         type="primary"
-        loading={isPending}
+        loading={editMutation.isPending}
         disabled={!editName.trim()}
       >
         Save

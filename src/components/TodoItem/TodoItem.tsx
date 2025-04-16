@@ -3,61 +3,42 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Todo } from "../../types/todo.types";
 import { useState } from "react";
 import { EditTodoForm } from "../EditTodoForm/EditTodoForm";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteTodo, updateTodo } from "../../api/todo.api";
-import authStore from "../../store/authStore";
+import { useToggleTodo } from "../../hooks/useToggleTodo";
+import { useDeleteTodo } from "../../hooks/useDeleteTodo";
 
-const TodoItem: React.FC<Todo> = ({ name, id, completed }) => {
+const TodoItem: React.FC<Todo> = (todo) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const queryClient = useQueryClient();
-  const { userId } = authStore();
 
-  const deleteMutation = useMutation({
-    mutationFn: () => deleteTodo(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todos", userId] });
-    },
-  });
+  const deleteMutation = useDeleteTodo(todo);
 
-  const toggleMutation = useMutation({
-    mutationFn: () =>
-      updateTodo({
-        id,
-        name,
-        completed: !completed,
-        userId: userId || "",
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todos", userId] });
-    },
-  });
+  const toggleMutation = useToggleTodo(todo);
 
   return (
     <div className="flex items-center mb-2">
       <Checkbox
-        checked={completed}
+        checked={todo.completed}
         style={{ marginRight: 10 }}
         onChange={() => toggleMutation.mutate()}
       />
       {isEditing ? (
         <EditTodoForm
-          id={id}
-          name={name}
+          id={todo.id}
+          name={todo.name}
           setIsEditing={setIsEditing}
-          completed={completed}
+          completed={todo.completed}
         />
       ) : (
         <>
           <span
             className={`cursor-pointer flex-1 ml-[5px] ${
-              completed ? "line-through opacity-50" : ""
+              todo.completed ? "line-through opacity-50" : ""
             }`}
             onClick={() => toggleMutation.mutate()}
           >
-            {name}
+            {todo.name}
           </span>
           <Button
-            disabled={completed}
+            disabled={todo.completed}
             onClick={() => setIsEditing(true)}
             icon={<EditOutlined />}
             type="link"

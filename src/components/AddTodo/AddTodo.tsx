@@ -1,23 +1,11 @@
 import { Input, Button, Flex } from "antd";
 import { useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
-import authStore from "../../store/authStore";
-import { useMutation } from "@tanstack/react-query";
-import { addTodoByUser } from "../../api/todo.api";
+import { useAddTodo } from "../../hooks/useAddTodo";
 
 const AddTodo = () => {
   const [name, setName] = useState<string>("");
-  const { userId } = authStore();
-  const queryClient = useQueryClient();
+  const mutationAddTodo = useAddTodo({ name, setName });
 
-  const mutationAddTodo = useMutation({
-    mutationFn: () =>
-      addTodoByUser({ name, completed: false, userId: userId! }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
-      setName("");
-    },
-  });
   const handleAddTodo = () => {
     mutationAddTodo.mutate();
   };

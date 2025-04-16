@@ -2,20 +2,14 @@ import TodoItem from "../TodoItem/TodoItem";
 import { useTodoStore } from "../../store/todoStore";
 import { FILTER_STATUSES } from "../../constants/filterConstant";
 import authStore from "../../store/authStore";
-import { getTodosByUserId } from "../../api/todo.api";
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { Todo } from "../../types/todo.types";
+import { useGetListTodo } from "../../hooks/useGetListTodo";
 
 const TodoList = () => {
   const { filter, search } = useTodoStore();
   const { userId } = authStore();
 
-  const { data: todos = [] } = useQuery({
-    queryFn: () => getTodosByUserId(userId!),
-    placeholderData: keepPreviousData,
-    queryKey: ["todos", userId],
-    enabled: !!userId,
-  });
+  const { data: todos = [] } = useGetListTodo();
   if (!userId) return null;
 
   const filteredTodos = todos.filter((todo: Todo) => {

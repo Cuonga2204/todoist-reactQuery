@@ -1,59 +1,15 @@
 import { Button, Form, Input, Typography } from "antd";
-import { Link, useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import { login } from "../api/auth.api";
-import authStore from "../store/authStore";
-import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+import { useLogin } from "../hooks/useLogin";
 import { DataLoginForm } from "../types/auth.types";
-import { useLocation } from "react-router-dom";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
   const [form] = Form.useForm();
-  const { loginStore } = authStore();
-  const { mutate, reset } = useMutation({
-    mutationFn: (payload: DataLoginForm) => login(payload),
-
-    onSuccess: (res) => {
-      if (!res) {
-        toast.error("Sign up error");
-        return;
-      }
-      switch (res.status) {
-        case 404: {
-          form.setFields([{ name: "gmail", errors: [res.message as string] }]);
-          break;
-        }
-
-        case 401: {
-          form.setFields([
-            { name: "password", errors: [res.message as string] },
-          ]);
-          break;
-        }
-
-        case 200: {
-          const user = res.data;
-          loginStore(user.username, user.id);
-          const redirectPath = location.state?.from || "/";
-          navigate(redirectPath);
-          break;
-        }
-        default: {
-          toast.error("Sign up error");
-        }
-      }
-    },
-
-    onError: () => {
-      toast.error("Sign up error");
-    },
-  });
+  const mutationLogin = useLogin(form);
 
   const onFinish = (values: DataLoginForm) => {
-    reset();
-    mutate(values);
+    mutationLogin.reset();
+    mutationLogin.mutate(values);
   };
 
   return (

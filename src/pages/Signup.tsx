@@ -1,37 +1,11 @@
 import { Button, Form, Input, Typography } from "antd";
 import { Link } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import { signup } from "../api/auth.api";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import { DataSignupForm } from "../types/auth.types";
-import authStore from "../store/authStore";
+import { useSignup } from "../hooks/useSignup";
 
 export const Signup = () => {
-  const navigate = useNavigate();
   const [form] = Form.useForm();
-  const { loginStore } = authStore();
-  const mutationSignup = useMutation({
-    mutationFn: (payload: DataSignupForm) => signup(payload),
-    onSuccess: (res) => {
-      if (!res) return;
-      if (res.status === 409) {
-        form.setFields([
-          {
-            name: "gmail",
-            errors: [res.message!],
-          },
-        ]);
-      } else {
-        const user = res.data;
-        loginStore(user.username, user.id);
-        navigate("/");
-      }
-    },
-    onError: () => {
-      toast.error("Sign Up error");
-    },
-  });
+  const mutationSignup = useSignup(form);
 
   const onFinish = async (values: DataSignupForm) => {
     mutationSignup.mutate(values);

@@ -1,16 +1,14 @@
 import { DataSignupForm } from "../types/auth.types";
 import { signup } from "../api/auth.api";
 import { useMutation } from "@tanstack/react-query";
-import { Form } from "antd";
+import { FormInstance } from "antd";
 import { useNavigate } from "react-router-dom";
-interface MutaionSignupProps {
-  payload: DataSignupForm;
-}
-export const useMutationSignup = ({ payload }: MutaionSignupProps) => {
-  const [form] = Form.useForm();
+
+export const useSignup = (form: FormInstance<DataSignupForm>) => {
   const navigate = useNavigate();
-  useMutation({
-    mutationFn: () => signup(payload),
+
+  return useMutation({
+    mutationFn: (payload: DataSignupForm) => signup(payload),
     onSuccess: (res) => {
       if (!res) return;
       if (res.status === 409) {
