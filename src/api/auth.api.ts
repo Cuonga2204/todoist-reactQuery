@@ -1,6 +1,7 @@
 import axios from "axios";
 import { User } from "../types/auth.types";
 import { API_URL } from "../constants/config";
+
 export interface PayloadSignUp {
   username: string;
   gmail: string;
