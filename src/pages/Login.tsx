@@ -9,7 +9,6 @@ import { useLocation } from "react-router-dom";
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(`location`, location);
   const [form] = Form.useForm();
   const { loginStore } = authStore();
   const { mutate, reset } = useMutation({
@@ -34,10 +33,8 @@ const Login = () => {
         }
 
         case 200: {
-          console.log(`res`, res);
           const user = res.data;
           loginStore(user.username, user.id);
-          console.log(location.state);
           const redirectPath = location.state?.from || "/";
           navigate(redirectPath);
           break;
