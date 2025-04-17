@@ -1,5 +1,5 @@
 import { Table, Pagination, Space } from "antd";
-import { useQueryString } from "../utils/ultils";
+import { useQueryString } from "../utils/utils";
 import { useNavigate } from "react-router-dom";
 import { useGetUsersInfor } from "../hooks/useGetUsersInfor";
 import { userInforColumns } from "../constants/tableColumns";
