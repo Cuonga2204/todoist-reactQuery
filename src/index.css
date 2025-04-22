@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+:root {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+  background-color:#f5f5f5 ;
+}
+.ant-card{
+  margin: 40px auto;
+}
